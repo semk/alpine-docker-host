@@ -1,0 +1,76 @@
+{
+  "description": "An Alpine Linux x86_64 based Docker host (minimal) operating system",
+  "variables": {
+    "vm_name": "alpine-docker-host",
+    "vm_description": "An Alpine Linux x86_64 based Docker host (minimal) operating system",
+    "vm_version": "1.0.0.0",
+    "vm_product": "Alpine Docker Host OS",
+    "vm_producturl": "https://alpinelinux.org/",
+    "vm_vendor": "Alpine Linux",
+    "vm_vendorurl": "https://alpinelinux.org/",
+    "vm_memory": "4096",
+    "vm_cpus": "2",
+    "disk_size": "51200",
+    "accelerator": "tcg",
+    "output_directory": "build/"
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/00-configure-base.sh",
+        "scripts/10-install-packages.sh",
+        "scripts/20-configure-networking.sh",
+        "scripts/25-configure-sshd.sh",
+        "scripts/30-configure-users.sh",
+        "scripts/60-configure-docker.sh",
+        "scripts/80-configure-vbox.sh",
+        "scripts/99-minimize-disk.sh"
+      ]
+    }
+  ],
+  "builders": [
+    {
+      "type": "qemu",
+      "headless": true,
+      "disk_size": "{{user `disk_size`}}",
+      "http_directory": "http",
+      "iso_urls": [
+        "isos/alpine-virt-3.9.0-x86_64.iso",
+        "http://dl-cdn.alpinelinux.org/alpine/v3.9/releases/x86_64/alpine-virt-3.9.0-x86_64.iso"
+      ],
+      "iso_checksum": "e87e0256d10ca2125455fb5023687b2346740a8cbae54972312fe1626f07494c",
+      "iso_checksum_type": "sha256",
+      "communicator": "ssh",
+      "ssh_username": "root",
+      "ssh_password": "alpine/4u",
+      "ssh_wait_timeout": "10m",
+      "shutdown_command": "/sbin/poweroff",
+      "boot_wait": "30s",
+      "boot_command": [
+        "root<enter><wait>",
+        "ifconfig eth0 up && udhcpc -i eth0<enter><wait10>",
+        "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
+        "setup-alpine -f $PWD/answers<enter><wait5>",
+        "alpine/4u<enter><wait>",
+        "alpine/4u<enter><wait>",
+        "<wait10><wait10><wait10>",
+        "y<enter>",
+        "<wait10><wait10><wait10>",
+        "<wait10><wait10><wait10>",
+        "rc-service sshd stop<enter>",
+        "mount /dev/sda2 /mnt<enter>",
+        "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter>",
+        "umount /mnt<enter>",
+        "reboot<enter>"
+      ],
+      "format": "qcow2",
+      "accelerator": "{{user `accelerator`}}",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "vm_name": "{{user `vm_name`}}",
+      "output_directory": "{{user `output_directory`}}"
+    }
+  ],
+  "post-processors": []
+}
