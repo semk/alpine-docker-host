@@ -46,7 +46,7 @@
       "ssh_password": "alpine/4u",
       "ssh_wait_timeout": "10m",
       "shutdown_command": "/sbin/poweroff",
-      "boot_wait": "30s",
+      "boot_wait": "60s",
       "boot_command": [
         "root<enter><wait>",
         "ifconfig eth0 up && udhcpc -i eth0<enter><wait10>",
@@ -67,7 +67,7 @@
       "format": "qcow2",
       "accelerator": "{{user `accelerator`}}",
       "net_device": "virtio-net",
-      "disk_interface": "virtio",
+      "disk_interface": "virtio-scsi",
       "vm_name": "{{user `vm_name`}}",
       "output_directory": "{{user `output_directory`}}"
     }
