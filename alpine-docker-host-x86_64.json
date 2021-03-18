@@ -10,7 +10,7 @@
     "vm_vendorurl": "https://alpinelinux.org/",
     "vm_memory": "4096",
     "vm_cpus": "2",
-    "disk_size": "51200",
+    "disk_size": "12G",
     "accelerator": "tcg",
     "output_directory": "build/"
   },
@@ -24,7 +24,6 @@
         "scripts/25-configure-sshd.sh",
         "scripts/30-configure-users.sh",
         "scripts/60-configure-docker.sh",
-        "scripts/80-configure-vbox.sh",
         "scripts/99-minimize-disk.sh"
       ]
     }
@@ -36,11 +35,9 @@
       "disk_size": "{{user `disk_size`}}",
       "http_directory": "http",
       "iso_urls": [
-        "isos/alpine-virt-3.9.0-x86_64.iso",
-        "http://dl-cdn.alpinelinux.org/alpine/v3.9/releases/x86_64/alpine-virt-3.9.0-x86_64.iso"
+        "http://dl-cdn.alpinelinux.org/alpine/v3.13/releases/x86_64/alpine-virt-3.13.2-x86_64.iso"
       ],
-      "iso_checksum": "e87e0256d10ca2125455fb5023687b2346740a8cbae54972312fe1626f07494c",
-      "iso_checksum_type": "sha256",
+      "iso_checksum": "sha256:2bfba779f5d6334543f7b2242a2a8956952c3170d083f255589c2c5c8fadc06a",
       "communicator": "ssh",
       "ssh_username": "root",
       "ssh_password": "alpine/4u",
@@ -56,8 +53,7 @@
         "alpine/4u<enter><wait>",
         "<wait10><wait10><wait10>",
         "y<enter>",
-        "<wait10><wait10><wait10>",
-        "<wait10><wait10><wait10>",
+        "<wait2m>",
         "rc-service sshd stop<enter>",
         "mount /dev/sda2 /mnt<enter>",
         "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter>",

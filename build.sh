@@ -18,6 +18,6 @@
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 cd ${SCRIPT_DIR}
 
-packer build -force ${SCRIPT_DIR}/alpine-docker-host-x86_64.json
+PACKER_LOG=1 packer build -force ${SCRIPT_DIR}/alpine-docker-host-x86_64.json
 
 cd -
