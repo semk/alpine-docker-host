@@ -7,6 +7,5 @@ apk update && apk upgrade --available
 
 # Install the packages
 apk add \
-	busybox-extras \
-  open-vm-tools \
+  busybox-extras \
   docker sudo bash curl
