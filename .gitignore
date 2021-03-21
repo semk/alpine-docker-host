@@ -4,5 +4,10 @@ packer_cache/
 # Crash log
 crash.log
 
-# For built boxes
+# Build artifacts
 *.box
+build/
+
+# MacOS
+.DS_Store
+
