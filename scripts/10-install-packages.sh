@@ -8,4 +8,5 @@ apk update && apk upgrade --available
 # Install the packages
 apk add \
   busybox-extras \
-  docker sudo bash curl
+  docker docker-compose \
+  sudo bash curl
